@@ -1,6 +1,4 @@
 """
-run_experiments.py
-===================
 Reproduces:
   Experiment 1: FCM vs UC-FCM, 20 runs, same initialization per run
                 (Mean/Min/Max objective, wins/ties/losses, NMI/ACC/ARI mean+std)
@@ -9,10 +7,6 @@ Reproduces:
   Experiment 3: Convergence curves (objective vs iteration) for FCM vs UC-FCM
   Experiment 4: Runtime comparison
 
-Usage:
-    python run_experiments.py                  # run on all configured datasets
-    python run_experiments.py --datasets Digits Dermatology
-    python run_experiments.py --n_runs 20 --best_params_search
 """
 
 import os

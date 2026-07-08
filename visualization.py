@@ -1,12 +1,8 @@
 """
-visualization.py
-=================
-Publication-style plotting utilities: convergence curves, sensitivity heatmaps,
+convergence curves, sensitivity heatmaps,
 runtime bar charts, Nemenyi critical-difference diagrams, PCA/t-SNE embeddings,
 confusion matrices, boxplots over runs.
 
-All figures are saved as PNG (high dpi), PDF (vector), and SVG (vector) to
-`figures/`.
 """
 
 import os
@@ -105,8 +101,6 @@ def plot_runtime_bars(runtime_dict, dataset_name):
 
 
 def plot_cd_diagram(mean_ranks, algo_names, cd, metric_name):
-    """Simplified critical-difference diagram (Fig. 2 style): horizontal bars showing
-    mean rank +/- CD/2 for each algorithm, sorted best-to-worst."""
     order = np.argsort(mean_ranks)
     ranks_sorted = np.array(mean_ranks)[order]
     names_sorted = np.array(algo_names)[order]

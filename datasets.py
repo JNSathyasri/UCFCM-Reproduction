@@ -17,10 +17,7 @@ class DatasetLoader:
     def encode(self, y):
         return LabelEncoder().fit_transform(y)
 
-    #########################################################
     # MATLAB DATASETS
-    #########################################################
-
     def load_mat(self, dataset_name):
         folder = self.root / dataset_name
         mat_file = folder / f"{dataset_name}.mat"
@@ -41,10 +38,8 @@ class DatasetLoader:
             y = data["label"].flatten()
 
         return self.normalize(X), self.encode(y)
-
-    #########################################################
-    # Dermatology
-    #########################################################
+    
+    # Dermatology    
 
     def load_dermatology(self):
         file = self.root / "dermatology" / "dermatology.data"
@@ -59,9 +54,7 @@ class DatasetLoader:
 
         return self.normalize(X), self.encode(y)
 
-    #########################################################
-    # Segmentation
-    #########################################################
+    # Segmentation    
 
     def load_segmentation(self):
         train = self.root / "segmentation" / "segmentation.data"
@@ -88,10 +81,8 @@ class DatasetLoader:
         X = df.iloc[:, 1:].astype(np.float64).values
 
         return self.normalize(X), self.encode(y)
-
-    #########################################################
+    
     # Yeast
-    #########################################################
 
     def load_yeast(self):
         file = self.root / "yeast" / "yeast.data"
@@ -102,11 +93,9 @@ class DatasetLoader:
         y = df.iloc[:, -1].values
 
         return self.normalize(X), self.encode(y)
-
-    #########################################################
+    
     # Digits
-    #########################################################
-
+    
     def load_digits(self):
         digits = load_digits()
 
@@ -115,9 +104,7 @@ class DatasetLoader:
 
         return X, y
 
-    #########################################################
     # Main API
-    #########################################################
 
     def _minmax_scale(self,X):
         X = X.astype(float)
@@ -128,13 +115,6 @@ class DatasetLoader:
         return (X - mn) / rng
 
     def _face_placeholder(self, name, n_classes=10, n_per_class=15, dim=64, seed=0):
-        """Offline placeholder generator for the face-image / mat-file datasets
-        (Binalpha, Jaffe50, MSRA25, ORL32, Yale32, Yale64) that require .mat files not
-        obtainable without network access in this environment. Generates class-separated
-        Gaussian blobs of the correct sample/dimension scale as a STRUCTURAL stand-in so
-        the experiment pipeline runs; results on this placeholder carry no scientific
-        meaning about the real dataset and must be replaced by the real .mat-derived
-        features for a genuine reproduction."""
         from sklearn.datasets import make_blobs
         X, y = make_blobs(
             n_samples=n_classes * n_per_class,
@@ -186,12 +166,8 @@ class DatasetLoader:
             return self.load_mat(mat_datasets[dataset])
 
         raise ValueError(f"Unknown dataset: {dataset}")
- # ======================================================
+
 # Compatibility API
-# ======================================================
-# ======================================================
-# Compatibility API
-# ======================================================
 
 _loader = DatasetLoader(root="data")
 
@@ -203,17 +179,8 @@ def load_dataset(name):
 
 DATASET_LOADERS = {
     "digits": lambda: load_dataset("digits"),
-    # "dermatology": lambda: load_dataset("dermatology"),
-    # "segmentation": lambda: load_dataset("segmentation"),
     "yeast": lambda: load_dataset("yeast"),
-
-    # Uncomment after downloading the .mat datasets
-    # keep binalpha
     "binalpha": lambda: load_dataset("binalpha"), 
-    # "orl32": lambda: load_dataset("orl32"),
-    # "yale32": lambda: load_dataset("yale32"),
-    # try this
-    # "yale64": lambda: load_dataset("yale64"),
     "msra25": lambda: load_dataset("MSRA25"),
     "jaffe50": lambda: load_dataset("jaffe50"),
 }
